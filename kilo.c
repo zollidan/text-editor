@@ -12,6 +12,15 @@
 #define KILO_VERSION "0.0.1"
 #define CTRL_KEY(k) ((k) & 0x1f)
 
+enum editorKey {
+  ARROW_LEFT = 1000,
+  ARROW_RIGHT,
+  ARROW_UP,
+  ARROW_DOWN,
+  PAGE_UP,
+  PAGE_DOWN
+};
+
 /*** data ***/
 
 struct termios orig_termios;
@@ -142,16 +151,24 @@ void editorRefreshScreen() {
 void editorMoveCursor(char key) {
   switch (key) {
     case 'a':
-      E.cx--;
+      if (E.cx != 0) {
+        E.cx--;
+      }
       break;
     case 'd':
-      E.cx++;
+      if (E.cx != E.screencols - 1) { 
+        E.cx++;
+      }
       break;
     case 'w':
-      E.cy--;
+      if (E.cy != 0){
+        E.cy--;
+      }
       break;
     case 's':
+    if (E.cy != E.screenrows - 1){
       E.cy++;
+      }
       break;
   }
 }
